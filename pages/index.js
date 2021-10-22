@@ -1,82 +1,85 @@
-import Head from 'next/head'
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import { getSession } from "next-auth/client";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faQuestionCircle,
+  faBell,
+  faBars,
+  faTimes,
+  faCog,
+  faSignOutAlt,
+  faHeart,
+  faUsers,
+  faEye,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 
-export default function Home() {
+import SimpleSideNav from "../components/nav";
+import Avatar from "../components/avatar";
+import StatCard from "../components/stats";
+import StripedTable from "../components/table";
+import Layout from "../components/layout";
+
+const Home = ({ data }) => {
+  const [results, setResults] = useState(data);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <Layout title="Home">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Home</title>
       </Head>
-
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <div className="w-full max-w-screen-xl px-6 py-12">
+        <div className="mb-12">
+          <h2 className="mb-4 text-3xl font-bold">Overview</h2>
+          <div className="flex flex-wrap justify-between">
+            <StatCard
+              title="Subscribers"
+              stat={24}
+              link="/"
+              icon={<FontAwesomeIcon icon={faUsers} />}
+              className="mb-6 xl:mb-0"
+            />
+            <StatCard
+              title="Total Views"
+              stat={"328,743"}
+              link="/"
+              icon={<FontAwesomeIcon icon={faEye} />}
+              statSize="text-4xl"
+              className="mb-6 xl:mb-0"
+            />
+            <StatCard
+              title="Unread Messages"
+              stat={2}
+              link="/"
+              icon={<FontAwesomeIcon icon={faEnvelope} />}
+              className="mb-6 xl:mb-0"
+            />
+          </div>
         </div>
-      </main>
+        <div className="mb-12">
+          <h2 className="mb-4 text-3xl font-bold">Recent Subscribers</h2>
+          <StripedTable />
+        </div>
+      </div>
+    </Layout>
+  );
+};
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
-  )
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
 }
+
+export default Home;
