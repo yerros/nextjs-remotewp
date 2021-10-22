@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function InputGroup({
   className = "",
@@ -14,10 +14,11 @@ function InputGroup({
   onChange = () => {},
   ...newProps
 }) {
-  const hasError = error || errorText
+  const hasError = error || errorText;
   const finalClass = `${className} w-full border border-gray-300 rounded-sm px-4 py-3 outline-none transition-colors duration-150 ease-in-out focus:border-blue-400 ${
     hasError && `border-red-600`
-  }`
+  }`;
+  console.log(defaultValue);
   return (
     <div className={horizontal ? "sm:flex sm:items-center" : ""}>
       {label && (
@@ -37,20 +38,20 @@ function InputGroup({
           className={finalClass}
           placeholder={placeholder}
           defaultValue={defaultValue}
-          onChange={e => onChange(e.currentTarget.value)}
+          onChange={(e) => onChange(e.currentTarget.value)}
           {...newProps}
         />
         {description && (
-          <span className="mt-2 text-gray-600 text-xs">{description}</span>
+          <span className="mt-2 text-xs text-gray-600">{description}</span>
         )}
         {errorText && (
-          <div className="bg-red-200 mt-2 py-2 px-4 text-xs text-red-600 rounded-sm">
+          <div className="px-4 py-2 mt-2 text-xs text-red-600 bg-red-200 rounded-sm">
             {errorText}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default InputGroup
+export default InputGroup;

@@ -59,7 +59,7 @@ const Home = ({ data }) => {
         </div>
         <div className="mb-12">
           <h2 className="mb-4 text-3xl font-bold">Recent Subscribers</h2>
-          <StripedTable />
+          {/* <StripedTable /> */}
         </div>
       </div>
     </Layout>
