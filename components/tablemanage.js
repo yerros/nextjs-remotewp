@@ -29,13 +29,13 @@ function StripedTable({ data }) {
                   className="block mt-6 no-underline"
                 >
                   <img
-                    src="https://www.jayahost.com/blog/wp-content/uploads/2015/03/wordpress-logo.png"
+                    src={i.yoast_head_json.og_image[0].url}
                     className="h-8"
                   />
                 </Link>
               </td>
-              <td className={tdClass}>{i.name}</td>
-              <td className={tdClass}>{i.address}</td>
+              <td className={tdClass}>{i.title.rendered}</td>
+              <td className={tdClass}>{i.date}</td>
               <td className={tdClass}>
                 <div
                   className="inline-block px-2 py-1 text-xs font-medium text-center text-blue-400 bg-transparent border border-blue-400 border-solid rounded cursor-pointer hover:bg-blue-400 hover:text-white"
