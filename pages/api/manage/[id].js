@@ -4,8 +4,7 @@ import axios from "axios";
 
 async function handler(req, res) {
   const data = req.body;
-  const id = req.query.id;
-
+  const { id, wp_id } = req.query;
   const { name, address, api } = data;
 
   if (req.method === "PUT") {
@@ -31,11 +30,16 @@ async function handler(req, res) {
     const sites = await db
       .collection("sites")
       .findOne({ _id: new ObjectId(id) });
-
-    const rest = "/wp-json/wp/v2/posts/";
-    const result = await axios.get(sites.address + rest);
-    res.status(201).json(result.data);
     client.close();
+    const rest = "/wp-json/wp/v2/posts/";
+    if (wp_id) {
+      //const result = await axios.get(sites.address + rest);
+      const result = await axios.get(sites.address + rest + wp_id);
+      return res.status(201).json(result.data);
+    } else {
+      const result = await axios.get(sites.address + rest);
+      return res.status(201).json(result.data);
+    }
   }
 
   if (req.method === "DELETE") {

@@ -27,7 +27,7 @@ function Navbar() {
         className="absolute top-0 right-0 mt-8 text-3xl text-blue-800 transform cursor-pointer translate-x-double lg:hidden"
       />
       <a href="#" className="block mt-6 no-underline">
-        <img src="../y-logo.png" className="w-40 mx-auto" />
+        <img src="../../y-logo.png" className="w-40 mx-auto" />
       </a>
       <div className="flex-1 mt-8">
         <div className="px-8">
